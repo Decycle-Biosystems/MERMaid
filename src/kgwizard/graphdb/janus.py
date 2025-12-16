@@ -8,6 +8,7 @@ from gremlin_python.structure.graph import Edge, Graph, Vertex
 from gremlin_python.driver import serializer
 from gremlin_python.driver.driver_remote_connection import DriverRemoteConnection
 from gremlin_python.process.graph_traversal import GraphTraversalSource, __
+from gremlin_python.process.anonymous_traversal import traversal
 
 from .schema_abstract import VertexBase, EdgeBase, Connection
 
@@ -45,7 +46,7 @@ def get_traversal(
     :return: A `GraphTraversalSource` instance for executing Gremlin queries.
     :rtype: GraphTraversalSource
     """
-    return Graph().traversal().withRemote(connection)
+    return traversal().withRemote(connection)
 
 
 def get_vertex(
@@ -250,4 +251,4 @@ def save_graph(
 ) -> None:
     if not output_path.suffix:
         output_path = output_path.with_suffix(".graphml")
-    graph.io(str(output_path)).write().iterate()
+    graph.io(str(output_path)).write().toList()
